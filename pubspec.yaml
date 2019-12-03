@@ -45,7 +45,6 @@ dev_dependencies:
   random_string:
   flutter_fluid_slider:
   flutter_launcher_icons:
-  app_settings:
   android_intent:
   location:
 
