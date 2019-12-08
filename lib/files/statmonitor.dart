@@ -60,6 +60,8 @@ class _StatMonitor extends State<StatMonitor> {
     Colors.greenAccent
   ];
 
+  String iSpecialCount;
+
   Location _locationService = new Location();
   bool isLocationEnabled = true;
   bool bLocation = false;
@@ -68,6 +70,7 @@ class _StatMonitor extends State<StatMonitor> {
   @override
   void initState() {
     super.initState();
+    refreshCount();
 
     if (currentPos == null) {
       print('get Current location');
@@ -210,6 +213,8 @@ class _StatMonitor extends State<StatMonitor> {
                 child: Icon(Icons.add),
                 backgroundColor: Colors.blueAccent,
                 onPressed: () {
+                  //*************************************************************************************************************************************
+                  refreshCount();
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
@@ -218,7 +223,7 @@ class _StatMonitor extends State<StatMonitor> {
                               sBusinessName: widget.sBusinessName,
                               sPhoneNumber: widget.sPhoneNumber,
                               sUserID: widget.sUserID,
-                              sSpecialCount: widget.sSpecialCount,
+                              sSpecialCount: iSpecialCount,
                               iValidUntil: widget.iValidUntil,
                               iLimit: widget.iLimit)));
                 },
@@ -532,6 +537,24 @@ class _StatMonitor extends State<StatMonitor> {
         }
       },
     );
+  }
+   void refreshCount() async {
+    final response =
+    await http.post("http://specials-fest.com/PHP/refreshCount.php", body: {
+      "userID": widget.sUserID,
+    }).catchError((e) {
+      setState(() {});
+    });
+
+    var datauser = json.decode(response.body);
+    print(datauser[0]['specialcount']);
+    if (datauser.length != 0) {
+      setState(() {
+        iSpecialCount = datauser[0]['specialcount'];
+        print(iSpecialCount);
+      });
+    }
+
   }
 }
 

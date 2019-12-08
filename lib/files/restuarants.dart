@@ -39,8 +39,9 @@ class Restaurants extends StatefulWidget {
 class _RestaurantsState extends State<Restaurants> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    refreshCount();
+    _firstPress = true;
   }
 
   @override
@@ -76,6 +77,28 @@ class _RestaurantsState extends State<Restaurants> {
   bool bSun = false;
   bool bFood = false;
   bool bDrinks = false;
+  bool _firstPress = true;
+
+  String iSpecialCount;
+
+  void refreshCount() async {
+    final response =
+    await http.post("http://specials-fest.com/PHP/refreshCount.php", body: {
+      "userID": widget.sUserID,
+    }).catchError((e) {
+      setState(() {});
+    });
+
+    var datauser = json.decode(response.body);
+    print(datauser[0]['specialcount']);
+    if (datauser.length != 0) {
+      setState(() {
+        iSpecialCount = datauser[0]['specialcount'];
+        print(iSpecialCount);
+      });
+    }
+
+  }
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
@@ -125,7 +148,7 @@ class _RestaurantsState extends State<Restaurants> {
       context: context,
       type: AlertType.info,
       title: "Active Specials:",
-      desc: "Your currently have " + widget.sSpecialCount + " active specials!",
+      desc: "Your currently have " + iSpecialCount + " active specials!",
       buttons: [
         DialogButton(
           child: Text(
@@ -203,7 +226,7 @@ class _RestaurantsState extends State<Restaurants> {
     String base64Image = base64Encode(image.readAsBytesSync());
     String naam = widget.sBusinessName.replaceAll(new RegExp(' '), '_');
 
-    String fileName = naam + widget.sSpecialCount + '.jpg';
+    String fileName = naam + iSpecialCount + '.jpg';
     http.post("http://specials-fest.com/photos/upload.php", body: {
       "image": base64Image,
       "name": fileName,
@@ -293,13 +316,13 @@ class _RestaurantsState extends State<Restaurants> {
   DateTime eerste, tweede;
 
   Future<void> _beginDatum(BuildContext context) async {
-    DateTime date = new DateTime.fromMillisecondsSinceEpoch(
-        int.parse(widget.iValidUntil) * 1000);
+    /*DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+        int.parse(widget.iValidUntil) * 1000);*/
     DateTime picked = await showDatePicker(
         context: context,
         firstDate: DateTime.now(),
         initialDate: DateTime.now(),
-        lastDate: date);
+        lastDate: DateTime(DateTime.now().year + 10));
     if (picked != null) {
       setState(() {
         setState(() {
@@ -316,13 +339,13 @@ class _RestaurantsState extends State<Restaurants> {
   }
 
   Future<void> _endDatum(BuildContext context) async {
-    DateTime date = new DateTime.fromMillisecondsSinceEpoch(
-        int.parse(widget.iValidUntil) * 1000);
+    /*DateTime date = new DateTime.fromMillisecondsSinceEpoch(
+        int.parse(widget.iValidUntil) * 1000);*/
     DateTime picked = await showDatePicker(
         context: context,
         firstDate: eerste,
         initialDate: eerste,
-        lastDate: date);
+        lastDate: DateTime(DateTime.now().year + 10));
     if (picked != null) {
       setState(() {
         setState(() {
@@ -629,7 +652,7 @@ class _RestaurantsState extends State<Restaurants> {
                   String naam =
                       widget.sBusinessName.replaceAll(new RegExp(' '), '_');
 
-                  String fileName2 = naam + widget.sSpecialCount + '.jpg';
+                  String fileName2 = naam + iSpecialCount + '.jpg';
                   Alert(
                     context: context,
                     type: AlertType.warning,
@@ -643,8 +666,11 @@ class _RestaurantsState extends State<Restaurants> {
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         onPressed: () {
-                          _upload();
-                          post(fileName2);
+                          if(_firstPress) {
+                            _firstPress = false;
+                            _upload();
+                            post(fileName2);
+                          }
                         },
                         color: Color.fromRGBO(0, 179, 134, 1.0),
                       ),
@@ -677,6 +703,7 @@ class _RestaurantsState extends State<Restaurants> {
               borderRadius: BorderRadius.circular(24),
             ),
             onPressed: () {
+              print(iSpecialCount);
               _showDialogSpecial();
             },
             padding: EdgeInsets.fromLTRB(80, 10, 80, 10),
@@ -743,6 +770,7 @@ class _RestaurantsState extends State<Restaurants> {
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold),
                           maxLines: 2,
+                          textScaleFactor: 1,
                         ),
                         SizedBox(
                           height: 5.0,
@@ -752,6 +780,7 @@ class _RestaurantsState extends State<Restaurants> {
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.grey, fontSize: 6.0),
                           maxLines: 3,
+                          textScaleFactor: 1,
                         ),
                         Text("Estimated : X km")
                       ],
@@ -768,6 +797,7 @@ class _RestaurantsState extends State<Restaurants> {
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.black, fontSize: 20.0),
                         maxLines: 6,
+                        textScaleFactor: 1,
                       ),
                     ),
                   ),
@@ -864,7 +894,7 @@ class _RestaurantsState extends State<Restaurants> {
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold),
                           maxLines: 2,
-                          textScaleFactor: 1.0,
+                            textScaleFactor: 1,
                         ),
                         SizedBox(
                           height: 5.0,
@@ -875,7 +905,7 @@ class _RestaurantsState extends State<Restaurants> {
                           maxLines: 1,
                           textScaleFactor: 1.0,
                         ),
-                        Text("Estimated : X km", textScaleFactor: 1.0,)
+                        Text("Estimated : X km", textScaleFactor: 1,)
                       ],
                     ),
                   ),
