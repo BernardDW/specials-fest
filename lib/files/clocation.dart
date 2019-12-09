@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
-import 'Functions/Cards.dart';
+import 'Widgets/Cards.dart';
 import 'globalvariables.dart' as globals;
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';

@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import "package:rflutter_alert/rflutter_alert.dart";
 
+import 'Widgets/Cards.dart';
+
 double screen_width;
 
 //LOG IN PAGE
@@ -83,7 +85,7 @@ class _RestaurantsState extends State<Restaurants> {
 
   void refreshCount() async {
     final response =
-    await http.post("http://specials-fest.com/PHP/refreshCount.php", body: {
+        await http.post("http://specials-fest.com/PHP/refreshCount.php", body: {
       "userID": widget.sUserID,
     }).catchError((e) {
       setState(() {});
@@ -97,7 +99,6 @@ class _RestaurantsState extends State<Restaurants> {
         print(iSpecialCount);
       });
     }
-
   }
 
   BoxDecoration myBoxDecoration() {
@@ -666,7 +667,7 @@ class _RestaurantsState extends State<Restaurants> {
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                         onPressed: () {
-                          if(_firstPress) {
+                          if (_firstPress) {
                             _firstPress = false;
                             _upload();
                             post(fileName2);
@@ -894,7 +895,7 @@ class _RestaurantsState extends State<Restaurants> {
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold),
                           maxLines: 2,
-                            textScaleFactor: 1,
+                          textScaleFactor: 1,
                         ),
                         SizedBox(
                           height: 5.0,
@@ -905,7 +906,10 @@ class _RestaurantsState extends State<Restaurants> {
                           maxLines: 1,
                           textScaleFactor: 1.0,
                         ),
-                        Text("Estimated : X km", textScaleFactor: 1,)
+                        Text(
+                          "Estimated : X km",
+                          textScaleFactor: 1,
+                        )
                       ],
                     ),
                   ),

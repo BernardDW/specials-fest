@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:specials_fest/files/restuarants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'Functions/Cards.dart';
+import 'Widgets/Cards.dart';
 import 'restuarants.dart';
 import 'package:flip_card/flip_card.dart';
 import 'globalvariables.dart' as globals;
@@ -349,74 +349,122 @@ class _StatMonitor extends State<StatMonitor> {
   }
 
   Widget ListSpecialsUser() {
-    return FutureBuilder(
-      future: getMethodSpecials(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        List snap = snapshot.data;
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
+    if (!bLocation) {
+      //Die load aan die begin waar sy value true is
+      if (!isLocationEnabled) {
+        return Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Error fetching Data \n Please check your connection",
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  child: RawMaterialButton(
-                    shape: CircleBorder(),
-                    fillColor: Colors.blueAccent,
-                    child: Icon(
-                      Icons.refresh,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      if (this.mounted) {
-                        setState(() {});
-                      }
-                    },
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 25.0, right: 25.0),
+              child: Text(
+                'Please ENABLE your location to display specials',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.grey[800],
+                    fontWeight: FontWeight.w900,
+                    fontStyle: FontStyle.italic,
+                    fontFamily: 'Open Sans',
+                    fontSize: 20),
+              ),
+            ),
+            RaisedButton(
+              onPressed: () {
+                initPlatformState();
+              },
+              color: Colors.blueAccent,
+              child: Text(
+                'Enable Location',
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ));
+      } else {
+        return Center(
+          child: Text(
+            'Getting location...',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.grey[800],
+                fontWeight: FontWeight.w900,
+                fontStyle: FontStyle.italic,
+                fontFamily: 'Open Sans',
+                fontSize: 20),
+          ),
+        );
+      }
+    } else {
+      return FutureBuilder(
+        future: getMethodSpecials(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          List snap = snapshot.data;
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Error fetching Data \n Please check your connection",
+                    textAlign: TextAlign.center,
                   ),
-                  width: 50,
-                  height: 50,
-                )
-              ],
-            ),
-          );
-        }
-        if (snap.length != 0) {
-          return ListView.builder(
-            itemCount: snap.length,
-            itemBuilder: (context, index) {
-              return CardsDisplay(
-                sImageURL: "${snap[index]['imageurl']}",
-                sSpecialName: "${snap[index]['specialname']}",
-                sBusiness: widget.sBusinessName,
-                sDistance: "${snap[index]['distance']}",
-                sSpecialDescription: "${snap[index]['specialdescription']}",
-                sPhoneNumber: '${snap[index]['phonenumber']}',
-                sLatitude: '${snap[index]['latitude']}',
-                sLongitude: '${snap[index]['longitude']}',
-              );
-            },
-          );
-        } else {
-          return Center(
-            child: Text(
-              "No Active Specials",
-              textAlign: TextAlign.center,
-            ),
-          );
-        }
-      },
-    );
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    child: RawMaterialButton(
+                      shape: CircleBorder(),
+                      fillColor: Colors.blueAccent,
+                      child: Icon(
+                        Icons.refresh,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        if (this.mounted) {
+                          setState(() {});
+                        }
+                      },
+                    ),
+                    width: 50,
+                    height: 50,
+                  )
+                ],
+              ),
+            );
+          }
+          if (snap.length != 0) {
+            return ListView.builder(
+              itemCount: snap.length,
+              itemBuilder: (context, index) {
+                return CardsDisplay(
+                  sImageURL: "${snap[index]['imageurl']}",
+                  sSpecialName: "${snap[index]['specialname']}",
+                  sBusiness: widget.sBusinessName,
+                  sDistance: "${snap[index]['distance']}",
+                  sSpecialDescription: "${snap[index]['specialdescription']}",
+                  sPhoneNumber: '${snap[index]['phonenumber']}',
+                  sLatitude: '${snap[index]['latitude']}',
+                  sLongitude: '${snap[index]['longitude']}',
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: Text(
+                "No Active Specials",
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+        },
+      );
+    }
   }
 
   void refreshCount() async {
