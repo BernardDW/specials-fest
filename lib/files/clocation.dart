@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
+import 'Functions/Cards.dart';
 import 'globalvariables.dart' as globals;
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
@@ -229,7 +230,10 @@ class _CurrentLocation extends State<CurrentLocation> {
           ],
           backgroundColor: Colors.indigo,
           centerTitle: true,
-          title: Text('Specials Fest',textScaleFactor: 1.0,),
+          title: Text(
+            'Specials Fest',
+            textScaleFactor: 1.0,
+          ),
           bottom: TabBar(isScrollable: true, tabs: [
             Tab(
               text: 'Monday\n' + _sDayName[0],
@@ -478,140 +482,15 @@ class _CurrentLocation extends State<CurrentLocation> {
               child: ListView.builder(
                 itemCount: snap.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: screen_width / 2 + 20,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Positioned(
-                          top: 10.0,
-                          right: 10.0,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0))),
-                            elevation: 10,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        "${snap[index]['imageurl']}"),
-                                    fit: BoxFit.cover),
-                                color: Colors.white70,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0)),
-                              ),
-                              width: screen_width / 2,
-                              height: screen_width / 2,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 20.0,
-                          left: 10.0,
-                          child: Container(
-                            width: screen_width / 2,
-                            height: screen_width / 2 - 10,
-                            child: Card(
-                              elevation: 10.0,
-                              color: Colors.transparent,
-                              child: FlipCard(
-                                direction: FlipDirection.HORIZONTAL,
-                                front: Container(
-                                  padding: EdgeInsets.only(
-                                      left: 10.0, right: 10.0, top: 10),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Column(
-                                    children: <Widget>[
-                                      AutoSizeText(
-                                        "${snap[index]['specialname']}",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold),
-                                        maxLines: 4,
-                                        textScaleFactor: 1.0,
-                                      ),
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      AutoSizeText(
-                                        'By ' +
-                                            "${snap[index]['businessname']}",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.grey, fontSize: 6.0),
-                                        maxLines: 3,
-                                        textScaleFactor: 1.0,
-                                      ),
-                                      Text("${snap[index]['distance']} km", textScaleFactor: 1.0,)
-                                    ],
-                                  ),
-                                ),
-                                back: Container(
-                                  padding: EdgeInsets.only(
-                                      left: 5.0, right: 5.0, bottom: 18.0),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Center(
-                                    child: AutoSizeText(
-                                      "${snap[index]['specialdescription']}",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20.0),
-                                      maxLines: 6,
-                                      textScaleFactor: 1.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 5.0,
-                          bottom: 1.0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 0, 210, 0),
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              icon: Icon(Icons.call),
-                              color: Colors.white,
-                              splashColor: Colors.greenAccent,
-                              onPressed: () {
-                                launch(
-                                    'tel:' + '${snap[index]['phonenumber']}');
-                              },
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 60.0,
-                          bottom: 1.0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              icon: Icon(Icons.location_on),
-                              color: Colors.white,
-                              splashColor: Colors.lightBlueAccent,
-                              onPressed: () {
-                                _launchMaps('${snap[index]['latitude']}',
-                                    '${snap[index]['longitude']}'); //dLat,dLong
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  return CardsDisplay(
+                    sImageURL: "${snap[index]['imageurl']}",
+                    sSpecialName: "${snap[index]['specialname']}",
+                    sBusiness: "${snap[index]['businessname']}",
+                    sDistance: "${snap[index]['distance']}",
+                    sSpecialDescription: "${snap[index]['specialdescription']}",
+                    sPhoneNumber: '${snap[index]['phonenumber']}',
+                    sLatitude: '${snap[index]['latitude']}',
+                    sLongitude: '${snap[index]['longitude']}',
                   );
                 },
               ),
@@ -822,17 +701,4 @@ void getCityofUser(LocationData pos) async {
     "userdate": DateFormat("yyyy-MM-dd").format(DateTime.now()).toString(),
     "usercity": placemark.first.locality.toString(),
   });
-}
-
-/*OPEN MAPS*/
-void _launchMaps(String latitude, String longitude) async {
-  String googleURL =
-      'https://www.google.com/maps/search/?api=1&query=$latitude, $longitude';
-  if (await canLaunch(
-      "https://www.google.com/maps/search/?api=1&query=$latitude, $longitude")) {
-    print('launching googleURL');
-    await launch(googleURL);
-  } else {
-    throw 'Could not luanch url';
-  }
 }
