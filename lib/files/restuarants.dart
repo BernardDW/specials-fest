@@ -721,252 +721,34 @@ class _RestaurantsState extends State<Restaurants> {
   }
 
   Widget disableUpload() {
-    return Container(
-      height: screen_width / 2 + 20,
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Positioned(
-            top: 10.0,
-            right: 1.0,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
-              elevation: 10,
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('Fotos/steak.jpg'), fit: BoxFit.cover),
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                ),
-                width: screen_width / 2,
-                height: screen_width / 2,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 20.0,
-            left: 1.0,
-            child: Container(
-              width: screen_width / 2,
-              height: screen_width / 2 - 10,
-              child: Card(
-                elevation: 10.0,
-                color: Colors.transparent,
-                child: FlipCard(
-                  direction: FlipDirection.HORIZONTAL,
-                  front: Container(
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      children: <Widget>[
-                        AutoSizeText(
-                          _special,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
-                          maxLines: 2,
-                          textScaleFactor: 1,
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        AutoSizeText(
-                          'By ' + widget.sBusinessName,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey, fontSize: 6.0),
-                          maxLines: 3,
-                          textScaleFactor: 1,
-                        ),
-                        Text("Estimated : X km")
-                      ],
-                    ),
-                  ),
-                  back: Container(
-                    padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: AutoSizeText(
-                        _description,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 20.0),
-                        maxLines: 6,
-                        textScaleFactor: 1,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 1.0,
-            bottom: 1.0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 0, 210, 0),
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: Icon(Icons.call),
-                color: Colors.white,
-                splashColor: Colors.greenAccent,
-                onPressed: () {
-                  launch('tel:' + widget.sPhoneNumber);
-                },
-              ),
-            ),
-          ),
-          Positioned(
-            left: 60.0,
-            bottom: 1.0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.redAccent,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: Icon(Icons.location_on),
-                color: Colors.white,
-                splashColor: Colors.lightBlueAccent,
-              ),
-            ),
-          )
-        ],
-      ),
+    return CardsDisplay(
+      sImageURL: 'Fotos/steak.jpg',
+      sSpecialName: _special,
+      sBusiness: widget.sBusinessName,
+      sDistance: "Estimated : X",
+      sSpecialDescription: _description,
+      sPhoneNumber: widget.sPhoneNumber,
+      sLatitude: '',
+      sLongitude: '',
+      bNetworkImage: false,
+      bAssetImage: true,
+      bShowLocation: false,
     );
   }
 
   Widget enableUpload() {
-    return Container(
-      height: screen_width / 2 + 20,
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Positioned(
-            top: 10.0,
-            right: 1.0,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
-              elevation: 10,
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: FileImage(image), fit: BoxFit.cover),
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                ),
-                width: screen_width / 2,
-                height: screen_width / 2,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 20.0,
-            left: 1.0,
-            child: Container(
-              width: screen_width / 2,
-              height: screen_width / 2 - 10,
-              child: Card(
-                elevation: 10.0,
-                color: Colors.transparent,
-                child: FlipCard(
-                  direction: FlipDirection.HORIZONTAL,
-                  front: Container(
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      children: <Widget>[
-                        AutoSizeText(
-                          _special,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
-                          maxLines: 2,
-                          textScaleFactor: 1,
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        AutoSizeText(
-                          'By ' + widget.sBusinessName,
-                          style: TextStyle(color: Colors.grey, fontSize: 6.0),
-                          maxLines: 1,
-                          textScaleFactor: 1.0,
-                        ),
-                        Text(
-                          "Estimated : X km",
-                          textScaleFactor: 1,
-                        )
-                      ],
-                    ),
-                  ),
-                  back: Container(
-                    padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: AutoSizeText(
-                        _description,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 20.0),
-                        maxLines: 6,
-                        textScaleFactor: 1.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 1.0,
-            bottom: 1.0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 0, 210, 0),
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: Icon(Icons.call),
-                color: Colors.white,
-                splashColor: Colors.greenAccent,
-                onPressed: () {
-                  launch('tel:' + widget.sPhoneNumber);
-                },
-              ),
-            ),
-          ),
-          Positioned(
-            left: 60.0,
-            bottom: 1.0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.redAccent,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: Icon(Icons.location_on),
-                color: Colors.white,
-                splashColor: Colors.lightBlueAccent,
-              ),
-            ),
-          )
-        ],
-      ),
+    return CardsDisplay(
+      sSpecialName: _special,
+      sBusiness: widget.sBusinessName,
+      sDistance: "Estimated : X",
+      sSpecialDescription: _description,
+      sPhoneNumber: widget.sPhoneNumber,
+      sLatitude: '',
+      sLongitude: '',
+      bNetworkImage: false,
+      bAssetImage: false,
+      fAssetImage: image,
+      bShowLocation: false,
     );
   }
 

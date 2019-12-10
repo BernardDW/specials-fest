@@ -491,6 +491,8 @@ class _CurrentLocation extends State<CurrentLocation> {
                     sPhoneNumber: '${snap[index]['phonenumber']}',
                     sLatitude: '${snap[index]['latitude']}',
                     sLongitude: '${snap[index]['longitude']}',
+                    bNetworkImage: true,
+                    bShowLocation: true,
                   );
                 },
               ),

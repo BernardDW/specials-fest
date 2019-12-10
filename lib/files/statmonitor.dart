@@ -451,6 +451,8 @@ class _StatMonitor extends State<StatMonitor> {
                   sPhoneNumber: '${snap[index]['phonenumber']}',
                   sLatitude: '${snap[index]['latitude']}',
                   sLongitude: '${snap[index]['longitude']}',
+                  bNetworkImage: true,
+                  bShowLocation: true,
                 );
               },
             );

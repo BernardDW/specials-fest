@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,6 +15,10 @@ class CardsDisplay extends StatelessWidget {
   final String sPhoneNumber;
   final String sLatitude;
   final String sLongitude;
+  final bool bNetworkImage;
+  final bool bAssetImage;
+  final File fAssetImage;
+  final bool bShowLocation;
 
   CardsDisplay(
       {Key key,
@@ -23,7 +29,11 @@ class CardsDisplay extends StatelessWidget {
       this.sSpecialDescription,
       this.sPhoneNumber,
       this.sLatitude,
-      this.sLongitude})
+      this.sLongitude,
+      this.bNetworkImage,
+      this.bAssetImage,
+      this.fAssetImage,
+      this.bShowLocation})
       : super(key: key);
 
   double dSiz = 180;
@@ -45,7 +55,9 @@ class CardsDisplay extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: CachedNetworkImageProvider(this.sImageURL),
+                      image: bNetworkImage
+                          ? CachedNetworkImageProvider(this.sImageURL)
+                          : bAssetImage ? AssetImage(this.sImageURL) : FileImage(this.fAssetImage),
                       fit: BoxFit.cover),
                   color: Colors.white70,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -151,7 +163,9 @@ class CardsDisplay extends StatelessWidget {
                 color: Colors.white,
                 splashColor: Colors.lightBlueAccent,
                 onPressed: () {
-                  _launchMaps(this.sLatitude, this.sLongitude); //dLat,dLong
+                  bShowLocation
+                      ? _launchMaps(this.sLatitude, this.sLongitude)
+                      : print('No Location'); //dLat,dLong
                 },
               ),
             ),
