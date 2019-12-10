@@ -1,16 +1,12 @@
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flip_card/flip_card.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/painting.dart';
-import 'package:geolocator/geolocator.dart' as GeoLoc;
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'Widgets/Cards.dart';
+import 'Functions/getCityFunction.dart';
 import 'globalvariables.dart' as globals;
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
@@ -162,6 +158,16 @@ class _CurrentLocation extends State<CurrentLocation> {
     } else {
       bLocation = true;
     }
+
+    // List jan = new List(2);
+    // jan[0] = false;
+    // jan[1] = "kaff";
+    // if (jan[0])
+    // {
+    //   print('ja');
+    // } else {
+    //   print('nee');
+    // }
   }
 
   initPlatformState() async {
@@ -180,7 +186,7 @@ class _CurrentLocation extends State<CurrentLocation> {
           location = await _locationService.getLocation();
           setState(() {
             if (!bInitial) {
-              getCityofUser(location);
+              getCityofUser(location.latitude, location.longitude);
               bInitial = true;
             }
             currentPos = location;
@@ -196,7 +202,6 @@ class _CurrentLocation extends State<CurrentLocation> {
         } else {
           setState(() {
             isLocationEnabled = false;
-            print(isLocationEnabled);
           });
         }
       }
@@ -693,14 +698,4 @@ class SearchSpecials extends SearchDelegate<String> {
       itemCount: suggestionList.length,
     );
   }
-}
-
-void getCityofUser(LocationData pos) async {
-  var placemark = await GeoLoc.Geolocator()
-      .placemarkFromCoordinates(pos.latitude, pos.longitude);
-  var result = await http
-      .post("http://specials-fest.com/PHP/addUserLocation.php", body: {
-    "userdate": DateFormat("yyyy-MM-dd").format(DateTime.now()).toString(),
-    "usercity": placemark.first.locality.toString(),
-  });
 }

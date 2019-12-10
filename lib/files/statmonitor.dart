@@ -5,16 +5,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:specials_fest/files/restuarants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'Functions/getCityFunction.dart';
 import 'Widgets/Cards.dart';
 import 'restuarants.dart';
-import 'package:flip_card/flip_card.dart';
 import 'globalvariables.dart' as globals;
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart' as GeoLoc;
 
 double screen_width;
 bool isLocationEnabled = true;
@@ -106,7 +103,7 @@ class _StatMonitor extends State<StatMonitor> {
           location = await _locationService.getLocation();
           setState(() {
             if (!bInitial) {
-              getCityofUser(location);
+              getCityofUser(location.latitude, location.longitude);
               bInitial = true;
             }
             currentPos = location;
@@ -486,14 +483,4 @@ class _StatMonitor extends State<StatMonitor> {
       });
     }
   }
-}
-
-void getCityofUser(LocationData pos) async {
-  var placemark = await GeoLoc.Geolocator()
-      .placemarkFromCoordinates(pos.latitude, pos.longitude);
-  var result = await http
-      .post("http://specials-fest.com/PHP/addUserLocation.php", body: {
-    "userdate": DateFormat("yyyy-MM-dd").format(DateTime.now()).toString(),
-    "usercity": placemark.first.locality.toString(),
-  });
 }
