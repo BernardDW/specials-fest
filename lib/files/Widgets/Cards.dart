@@ -57,7 +57,9 @@ class CardsDisplay extends StatelessWidget {
                   image: DecorationImage(
                       image: bNetworkImage
                           ? CachedNetworkImageProvider(this.sImageURL)
-                          : bAssetImage ? AssetImage(this.sImageURL) : FileImage(this.fAssetImage),
+                          : bAssetImage
+                              ? AssetImage(this.sImageURL)
+                              : FileImage(this.fAssetImage),
                       fit: BoxFit.cover),
                   color: Colors.white70,
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -118,14 +120,23 @@ class CardsDisplay extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
-                    child: Center(
-                      child: AutoSizeText(
-                        this.sSpecialDescription,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 20.0),
-                        maxLines: 6,
-                        textScaleFactor: 1.0,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: AutoSizeText(
+                            this.sSpecialDescription,
+                            textAlign: TextAlign.center,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 18.0),
+                            maxLines: 6,
+                            textScaleFactor: 1.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        )
+                      ],
                     ),
                   ),
                 ),
