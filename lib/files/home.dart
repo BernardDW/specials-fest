@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'clocation.dart';
-import 'geoloacation.dart';
 import 'login.dart';
 
 class NavigationIconView {
@@ -54,7 +53,6 @@ class _BottomNavigationDemoState extends State<Home>
 
   CurrentLocation current;
   LoginPage loginP;
-  Geolocation more;
   List<Widget> pages;
   Widget currentPage;
 
