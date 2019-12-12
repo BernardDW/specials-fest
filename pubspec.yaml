@@ -28,7 +28,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flip_card:
-  cached_network_image:
+  cached_network_image: 2.0.0-rc.1
   auto_size_text:
   image_picker:
   loadmore:

@@ -174,7 +174,7 @@ class _SignUpState extends State<SignUp> {
         new TextField(
           decoration: InputDecoration(labelText: 'Reference code (if applicable)'),
           keyboardType: TextInputType.text,
-          maxLength: 5,
+          maxLength: 20,
           focusNode: _refFocus,
         ),
         new SizedBox(
