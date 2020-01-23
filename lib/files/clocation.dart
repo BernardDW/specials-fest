@@ -60,7 +60,7 @@ class _CurrentLocation extends State<CurrentLocation> {
       List<dynamic> lDay, String dateDay, String sDistaceOrder) async {
     if (bStore == false) {
       String theUrl =
-          'http://specials-fest.com/PHP/getData.php?days=$sDay&distance=$iDistance&latitude=$lat&longitude=$long&type=$sType&datestring=$dateDay&distanceorder=$sDistaceOrder';
+          'https://specials-fest.com/PHP/getData.php?days=$sDay&distance=$iDistance&latitude=$lat&longitude=$long&type=$sType&datestring=$dateDay&distanceorder=$sDistaceOrder';
       var res = await http
           .get(Uri.encodeFull(theUrl), headers: {"Accept": "application/json"});
       List<dynamic> responsBody = json.decode(res.body);

@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future postLogin() async {
     final response =
-        await http.post("http://specials-fest.com/PHP/login.php", body: {
+        await http.post("https://specials-fest.com/PHP/login.php", body: {
       "useremail": _contEmail.text,
       "userpassword": _contPass.text,
     }).catchError((e) {

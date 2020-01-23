@@ -136,7 +136,7 @@ class _StatMonitor extends State<StatMonitor> {
 
   getMethod(String sConfig) async {
     var result =
-        await http.post("http://specials-fest.com/PHP/getStatData.php", body: {
+        await http.post("https://specials-fest.com/PHP/getStatData.php", body: {
       "config": sConfig,
       "sdateday": DateFormat("yyyy-MM-dd").format(DateTime.now()).toString(),
     });
@@ -146,7 +146,7 @@ class _StatMonitor extends State<StatMonitor> {
 
   getMethodSpecials() async {
     var result = await http
-        .post("http://specials-fest.com/PHP/getUserSpecials.php", body: {
+        .post("https://specials-fest.com/PHP/getUserSpecials.php", body: {
       "useremail": widget.sEmail,
       "dCurrentLat": globals.globalPosition.latitude.toString(),
       "dCurrentLong": globals.globalPosition.longitude.toString(),
@@ -468,7 +468,7 @@ class _StatMonitor extends State<StatMonitor> {
 
   void refreshCount() async {
     final response =
-        await http.post("http://specials-fest.com/PHP/refreshCount.php", body: {
+        await http.post("https://specials-fest.com/PHP/refreshCount.php", body: {
       "userID": widget.sUserID,
     }).catchError((e) {
       setState(() {});

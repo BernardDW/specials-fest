@@ -175,7 +175,7 @@ class _ConfigurePassword extends State<ConfigurePassword> {
     print(widget.sEmailConfirm);
     print(_contConfigurePassword.text);
     final response = await http
-        .post("http://specials-fest.com/PHP/configureNewPassword.php", body: {
+        .post("https://specials-fest.com/PHP/configureNewPassword.php", body: {
       "useremail": widget.sEmailConfirm,
       "newpass": _contConfigurePassword.text,
     }).catchError((e) {

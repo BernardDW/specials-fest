@@ -85,7 +85,7 @@ class _RestaurantsState extends State<Restaurants> {
 
   void refreshCount() async {
     final response =
-        await http.post("http://specials-fest.com/PHP/refreshCount.php", body: {
+        await http.post("https://specials-fest.com/PHP/refreshCount.php", body: {
       "userID": widget.sUserID,
     }).catchError((e) {
       setState(() {});
@@ -228,7 +228,7 @@ class _RestaurantsState extends State<Restaurants> {
     String naam = widget.sBusinessName.replaceAll(new RegExp(' '), '_');
 
     String fileName = naam + iSpecialCount + '.jpg';
-    http.post("http://specials-fest.com/photos/upload.php", body: {
+    http.post("https://specials-fest.com/photos/upload.php", body: {
       "image": base64Image,
       "name": fileName,
     }).then((res) {
@@ -240,7 +240,7 @@ class _RestaurantsState extends State<Restaurants> {
 
   void post(String filename2) async {
     var result =
-        await http.post("http://specials-fest.com/PHP/addSpecial.php", body: {
+        await http.post("https://specials-fest.com/PHP/addSpecial.php", body: {
       "userid": widget.sUserID,
       "specialname": _contSpecialName.text,
       "description": _contDescription.text,

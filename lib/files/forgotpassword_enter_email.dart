@@ -143,7 +143,7 @@ class _ForgotPasswordEnterEmail extends State<ForgotPasswordEnterEmail> {
 
   Future postForgotPassword(String sSecret) async {
     final response = await http
-        .post("http://specials-fest.com/PHP/forgotPassword.php", body: {
+        .post("https://specials-fest.com/PHP/forgotPassword.php", body: {
       "useremail": _contEmail.text,
       "secret": sSecret,
     }).catchError((e) {

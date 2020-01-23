@@ -261,7 +261,7 @@ class _SignUpState extends State<SignUp> {
 
   void post() async {
     var result = await http.post(
-        "http://specials-fest.com/PHP/insertUser.php",
+        "https://specials-fest.com/PHP/insertUser.php",
         body: {
           "value": "I am cool!",
           "useremail": _contEmail.text,
@@ -313,7 +313,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   void _sendMail() async {
-    await http.post("http://specials-fest.com/PHP/emailNewUser.php", body: {
+    await http.post("https://specials-fest.com/PHP/emailNewUser.php", body: {
       "owner": _contOwner.text,
       "rest": _contRest.text,
       "number": _contMobile.text,
