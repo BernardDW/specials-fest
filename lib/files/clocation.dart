@@ -10,6 +10,7 @@ import 'Functions/getCityFunction.dart';
 import 'globalvariables.dart' as globals;
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 List<dynamic> lMonday,
     lTuesday,
@@ -484,24 +485,51 @@ class _CurrentLocation extends State<CurrentLocation> {
               onRefresh: () {
                 pullRefresh();
               },
-              child: ListView.builder(
+              child: ScreenTypeLayout(
+              mobile: ListView.builder(
                 itemCount: snap.length,
                 itemBuilder: (context, index) {
-                  return CardsDisplay(
-                    sImageURL: "${snap[index]['imageurl']}",
-                    sSpecialName: "${snap[index]['specialname']}",
-                    sBusiness: "${snap[index]['businessname']}",
-                    sDistance: "${snap[index]['distance']}",
-                    sSpecialDescription: "${snap[index]['specialdescription']}",
-                    sPhoneNumber: '${snap[index]['phonenumber']}',
-                    sLatitude: '${snap[index]['latitude']}',
-                    sLongitude: '${snap[index]['longitude']}',
-                    bNetworkImage: true,
-                    bShowLocation: true,
+                  return Center(
+                    child: CardsDisplay(
+                      sImageURL: "${snap[index]['imageurl']}",
+                      sSpecialName: "${snap[index]['specialname']}",
+                      sBusiness: "${snap[index]['businessname']}",
+                      sDistance: "${snap[index]['distance']}",
+                      sSpecialDescription:
+                          "${snap[index]['specialdescription']}",
+                      sPhoneNumber: '${snap[index]['phonenumber']}',
+                      sLatitude: '${snap[index]['latitude']}',
+                      sLongitude: '${snap[index]['longitude']}',
+                      bNetworkImage: true,
+                      bShowLocation: true,
+                    ),
                   );
                 },
               ),
-            );
+              tablet: GridView.builder(
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: 1),
+                itemCount: snap.length,
+                itemBuilder: (context, index) {
+                  return Center(
+                    child: CardsDisplay(
+                      sImageURL: "${snap[index]['imageurl']}",
+                      sSpecialName: "${snap[index]['specialname']}",
+                      sBusiness: "${snap[index]['businessname']}",
+                      sDistance: "${snap[index]['distance']}",
+                      sSpecialDescription:
+                          "${snap[index]['specialdescription']}",
+                      sPhoneNumber: '${snap[index]['phonenumber']}',
+                      sLatitude: '${snap[index]['latitude']}',
+                      sLongitude: '${snap[index]['longitude']}',
+                      bNetworkImage: true,
+                      bShowLocation: true,
+                    ),
+                  );
+                },
+              ),
+            )
+          );
           } else {
             return Center(
               child: Text(
@@ -516,7 +544,7 @@ class _CurrentLocation extends State<CurrentLocation> {
     }
   }
 
-  void SearchPlacePressed(String sPlace) {
+  void searchPlacePressed(String sPlace) {
     if (sPlace == 'All Places') {
       if (lMondayTemp.length != 0 ||
           lTuesdayTemp.length != 0 ||
@@ -679,7 +707,7 @@ class SearchSpecials extends SearchDelegate<String> {
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () {
-          _CurrentLocation().SearchPlacePressed(suggestionList[index]);
+          _CurrentLocation().searchPlacePressed(suggestionList[index]);
           close(context, null);
         },
         leading: Icon(Icons.fastfood),

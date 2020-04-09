@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'files/home.dart';
-// List<String> TypesFood = List();
+import 'package:flutter/services.dart';
 
-void main() {      
-  runApp(new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Spesials Fest',
-      home: Home(),
-    ));
+void main() {     
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+    .then((_) {
+      runApp(new MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Spesials Fest',
+        home: Home(),
+      ));
+    });
 }
