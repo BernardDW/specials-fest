@@ -101,7 +101,7 @@ class CardsDisplay extends StatelessWidget {
                           height: 5.0,
                         ),
                         AutoSizeText(
-                          'By ' + this.sBusiness,
+                          'At ' + this.sBusiness,
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.grey, fontSize: 6.0),
                           maxLines: 3,

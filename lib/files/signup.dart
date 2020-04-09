@@ -176,6 +176,7 @@ class _SignUpState extends State<SignUp> {
           keyboardType: TextInputType.text,
           maxLength: 20,
           focusNode: _refFocus,
+          controller: _contRef,
         ),
         new SizedBox(
           height: 10.0,
@@ -319,6 +320,6 @@ class _SignUpState extends State<SignUp> {
       "number": _contMobile.text,
       "email": _contEmail.text,
       "ref": _contRef.text,
-    }).then((e){print(e);}).catchError((e){print(e);});
+    }).then((e){print("probleem");}).catchError((e){print("probleem");});
   }
 }
