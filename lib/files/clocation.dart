@@ -11,6 +11,10 @@ import 'globalvariables.dart' as globals;
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import "package:rflutter_alert/rflutter_alert.dart";
+import "package:store_redirect/store_redirect.dart";
+
+String sVersion = "14";
 
 List<dynamic> lMonday,
     lTuesday,
@@ -134,9 +138,37 @@ class _CurrentLocation extends State<CurrentLocation> {
     }
   }
 
+  getPackageVersionFromServer() async {
+    var res = await http.get(
+        Uri.encodeFull('https://specials-fest.com/PHP/getVersion.php'),
+        headers: {"Accept": "application/json"});
+    String responsBody = json.decode(res.body);
+    if (responsBody != sVersion) {
+      Alert(
+        context: context,
+        title: "Not Updated",
+        desc: "Please update the app in order to continue using it",
+        style: AlertStyle(isOverlayTapDismiss: false, isCloseButton: false),
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Update",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              StoreRedirect.redirect(androidAppId: "com.specialsfest.specialsfest", iOSAppId: "1486845480");
+            },
+            width: 120,
+          )
+        ],
+      ).show();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    getPackageVersionFromServer();
     now = new DateTime.now().weekday.toInt() - 1;
     int _iDayNow = now;
     for (int iTel = 0; iTel < 7; iTel++) {
@@ -482,54 +514,53 @@ class _CurrentLocation extends State<CurrentLocation> {
           }
           if (snap.length != 0) {
             return RefreshIndicator(
-              onRefresh: () {
-                pullRefresh();
-              },
-              child: ScreenTypeLayout(
-              mobile: ListView.builder(
-                itemCount: snap.length,
-                itemBuilder: (context, index) {
-                  return Center(
-                    child: CardsDisplay(
-                      sImageURL: "${snap[index]['imageurl']}",
-                      sSpecialName: "${snap[index]['specialname']}",
-                      sBusiness: "${snap[index]['businessname']}",
-                      sDistance: "${snap[index]['distance']}",
-                      sSpecialDescription:
-                          "${snap[index]['specialdescription']}",
-                      sPhoneNumber: '${snap[index]['phonenumber']}',
-                      sLatitude: '${snap[index]['latitude']}',
-                      sLongitude: '${snap[index]['longitude']}',
-                      bNetworkImage: true,
-                      bShowLocation: true,
-                    ),
-                  );
+                onRefresh: () {
+                  pullRefresh();
                 },
-              ),
-              tablet: GridView.builder(
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 1),
-                itemCount: snap.length,
-                itemBuilder: (context, index) {
-                  return Center(
-                    child: CardsDisplay(
-                      sImageURL: "${snap[index]['imageurl']}",
-                      sSpecialName: "${snap[index]['specialname']}",
-                      sBusiness: "${snap[index]['businessname']}",
-                      sDistance: "${snap[index]['distance']}",
-                      sSpecialDescription:
-                          "${snap[index]['specialdescription']}",
-                      sPhoneNumber: '${snap[index]['phonenumber']}',
-                      sLatitude: '${snap[index]['latitude']}',
-                      sLongitude: '${snap[index]['longitude']}',
-                      bNetworkImage: true,
-                      bShowLocation: true,
-                    ),
-                  );
-                },
-              ),
-            )
-          );
+                child: ScreenTypeLayout(
+                  mobile: ListView.builder(
+                    itemCount: snap.length,
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: CardsDisplay(
+                          sImageURL: "${snap[index]['imageurl']}",
+                          sSpecialName: "${snap[index]['specialname']}",
+                          sBusiness: "${snap[index]['businessname']}",
+                          sDistance: "${snap[index]['distance']}",
+                          sSpecialDescription:
+                              "${snap[index]['specialdescription']}",
+                          sPhoneNumber: '${snap[index]['phonenumber']}',
+                          sLatitude: '${snap[index]['latitude']}',
+                          sLongitude: '${snap[index]['longitude']}',
+                          bNetworkImage: true,
+                          bShowLocation: true,
+                        ),
+                      );
+                    },
+                  ),
+                  tablet: GridView.builder(
+                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 1),
+                    itemCount: snap.length,
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: CardsDisplay(
+                          sImageURL: "${snap[index]['imageurl']}",
+                          sSpecialName: "${snap[index]['specialname']}",
+                          sBusiness: "${snap[index]['businessname']}",
+                          sDistance: "${snap[index]['distance']}",
+                          sSpecialDescription:
+                              "${snap[index]['specialdescription']}",
+                          sPhoneNumber: '${snap[index]['phonenumber']}',
+                          sLatitude: '${snap[index]['latitude']}',
+                          sLongitude: '${snap[index]['longitude']}',
+                          bNetworkImage: true,
+                          bShowLocation: true,
+                        ),
+                      );
+                    },
+                  ),
+                ));
           } else {
             return Center(
               child: Text(

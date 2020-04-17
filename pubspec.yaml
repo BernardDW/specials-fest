@@ -48,6 +48,8 @@ dev_dependencies:
   android_intent:
   location:
   responsive_builder:
+  package_info:
+  store_redirect:
 
 flutter_icons:
   android: "Fotos/androidicon.png"

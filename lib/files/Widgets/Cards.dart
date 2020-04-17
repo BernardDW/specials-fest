@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flip_card/flip_card.dart';
+import "package:rflutter_alert/rflutter_alert.dart";
 
 class CardsDisplay extends StatelessWidget {
   final String sImageURL;
@@ -130,6 +131,46 @@ class CardsDisplay extends StatelessWidget {
                             style:
                                 TextStyle(color: Colors.black, fontSize: 18.0),
                             maxLines: 6,
+                            overflowReplacement: Column(children: <Widget>[
+                              AutoSizeText(
+                                this.sSpecialDescription,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18.0),
+                                maxLines: 4,
+                                textScaleFactor: 1.0,
+                              ),
+                              FlatButton(
+                                child: Text(
+                                  "View More",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                  textScaleFactor: 1.0,
+                                ),
+                                onPressed: () {
+                                  Alert(
+                                    context: context,
+                                    title: this.sSpecialName,
+                                    desc: this.sSpecialDescription,
+                                    buttons: [
+                                      DialogButton(
+                                        child: Text(
+                                          "Close",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        width: 120,
+                                      )
+                                    ],
+                                  ).show();
+                                },
+                              )
+                            ]),
                             textScaleFactor: 1.0,
                           ),
                         ),
